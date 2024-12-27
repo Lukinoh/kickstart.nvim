@@ -627,8 +627,15 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+
+        -- Add Vue support: https://github.com/yioneko/vtsls/issues/148#issuecomment-2119744901
+        volar = {
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        },
         vtsls = {
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
           settings = {
+            vtsls = { tsserver = { globalPlugins = {} } },
             typescript = {
               inlayHints = {
                 parameterNames = { enabled = 'literals', suppressWhenArgumentMatchesName = false },
@@ -640,6 +647,19 @@ require('lazy').setup({
               },
             },
           },
+          before_init = function(params, config)
+            local result = vim.system({ 'npm', 'query', '#vue' }, { cwd = params.workspaceFolders[1].name, text = true }):wait()
+            if result.stdout ~= '[]' then
+              local vuePluginConfig = {
+                name = '@vue/typescript-plugin',
+                location = require('mason-registry').get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server',
+                languages = { 'vue' },
+                configNamespace = 'typescript',
+                enableForWorkspaceTypeScriptVersions = true,
+              }
+              table.insert(config.settings.vtsls.tsserver.globalPlugins, vuePluginConfig)
+            end
+          end,
         },
         lua_ls = {
           -- cmd = { ... },
@@ -708,7 +728,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, vue = true }
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
