@@ -20,3 +20,16 @@ look for ide dracule color scheme for vim
 I just have <c-s> mapped to :w<cr>
 
 ctrl + hjkl to move focus window
+
+delete until: dtc where c is the character
+
+
+f  	N  f{char}	to the Nth occurrence of {char} to the right
+F  	N  F{char}	to the Nth occurrence of {char} to the left
+t  	N  t{char}	till before the Nth occurrence of {char} to the right
+T  	N  T{char}	till before the Nth occurrence of {char} to the left
+            fc
+
+My alternative is using oo (resp. OO) to insert a new line under (resp. over) the current through this mapping: nmap oo o<Esc>k (resp. nmap OO O<Esc>j)
+
+q: display the history of command
