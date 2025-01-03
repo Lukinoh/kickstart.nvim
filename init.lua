@@ -633,7 +633,7 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
-
+        jsonls = {},
         -- Add Vue support: https://github.com/yioneko/vtsls/issues/148#issuecomment-2119744901
         volar = {
           filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
