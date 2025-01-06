@@ -33,3 +33,5 @@ T  	N  T{char}	till before the Nth occurrence of {char} to the left
 My alternative is using oo (resp. OO) to insert a new line under (resp. over) the current through this mapping: nmap oo o<Esc>k (resp. nmap OO O<Esc>j)
 
 q: display the history of command
+
+select lines with "V" and then Y
